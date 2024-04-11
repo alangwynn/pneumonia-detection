@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,13 +11,13 @@ class UploadButton extends StatefulWidget {
     required this.text,
     required this.onPressed,
     required this.documento,
-    // required this.image,
+    required this.image,
   }) : super(key: key);
 
   final bool enabled;
   final String text;
   final String documento;
-  // final File image;
+  final File image;
   final void Function({
     required String documento,
     required String image,

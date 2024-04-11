@@ -116,7 +116,7 @@ class _UploadRadiographyScreenState
             enabled: _image == null ? false : true,
             text: 'Escanear',
             documento: '',
-            // image: _image!,
+            image: _image!,
             onPressed: ref.read(scanPneumoniaImageProvider.notifier).scanImagen,
           ),
         ),
