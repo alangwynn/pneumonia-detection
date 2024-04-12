@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:pneumonia_detection/common/toast.dart';
+import 'package:pneumonia_detection/features/pneumonia/presentation/providers/state/image_detail.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/providers/state/scan_image.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/screens/screens.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/widgets/widgets.dart';
@@ -35,6 +36,8 @@ class _UploadRadiographyScreenState
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        ref.read(imageDetailProvider.notifier).setImage(_image!);
+        ref.read(imageDetailProvider.notifier).setRadiography('torax');
       } else {
         print('No image selected.');
       }
@@ -73,7 +76,6 @@ class _UploadRadiographyScreenState
 
   @override
   Widget build(BuildContext context) {
-
     ref.listen(scanPneumoniaImageProvider, (previous, next) {
       if (next.isLoading) {
         context.loaderOverlay.show();
@@ -88,10 +90,7 @@ class _UploadRadiographyScreenState
         context.loaderOverlay.hide();
         GoRouter.of(context).go(PneumoniaDetecionDetailsScreen.routeName);
         ToastOverlay.showToastMessage(
-          'Imagen escaneada correctamente',
-          ToastType.success,
-          context
-        );
+            'Imagen escaneada correctamente', ToastType.success, context);
       }
     });
 
@@ -116,7 +115,7 @@ class _UploadRadiographyScreenState
             enabled: _image == null ? false : true,
             text: 'Escanear',
             documento: '',
-            image: _image!,
+            image: _image != null ? _image! : File(''),
             onPressed: ref.read(scanPneumoniaImageProvider.notifier).scanImagen,
           ),
         ),
@@ -139,29 +138,43 @@ class _UploadRadiographyScreenState
                 height: 40.h,
               ),
               GestureDetector(
-                onTap: showOptions,
-                child: _image == null
-                    ? Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          border: const DashedBorder.fromBorderSide(
-                              dashLength: 15,
-                              side: BorderSide(color: Colors.blue, width: 2)),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Selecciona una imagen',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w400),
+                  onTap: showOptions,
+                  child: _image == null
+                      ? Container(
+                          width: double.infinity,
+                          height: 250.h,
+                          decoration: BoxDecoration(
+                            border: const DashedBorder.fromBorderSide(
+                                dashLength: 15,
+                                side: BorderSide(color: Colors.blue, width: 2)),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ),
-                      )
-                    : Image.file(_image!,
-                        width: double.infinity, height: 200, fit: BoxFit.cover),
-              ),
+                          child: const Center(
+                            child: Text(
+                              'Selecciona una imagen',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10.sp),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 2.w
+                              ),
+                            ),
+                            child: Image.file(
+                              _image!,
+                              width: double.infinity,
+                              height: 250.h,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )),
               SizedBox(
                 height: 50.h,
               ),

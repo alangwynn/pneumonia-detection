@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
 import 'package:pneumonia_detection/features/home/presentation/screens/screens.dart';
+import 'package:pneumonia_detection/features/pneumonia/presentation/providers/state/image_detail.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/providers/state/scan_image.dart';
 
 class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
@@ -17,6 +17,10 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final details = ref.watch(
       scanPneumoniaImageProvider.select((value) => value.value!),
+    );
+
+    final scannedImage = ref.watch(
+      imageDetailProvider.select((value) => value.file),
     );
 
     return SafeArea(
@@ -74,23 +78,31 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
               ),
             ),
             SizedBox(
-              height: 40.h,
+              height: 20.h,
             ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                border: const DashedBorder.fromBorderSide(
-                    dashLength: 15,
-                    side: BorderSide(color: Colors.blue, width: 2)),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Center(
-                child: Text(
-                  'Imagen',
-                  style: TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.w400),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.sp),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue, width: 2.w),
                 ),
+                child: Image.file(
+                  scannedImage,
+                  width: double.infinity,
+                  height: 250.h,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                'El escaneo dio un %${details.porcentaje*100} de tener pneumonia',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
               ),
             ),
             SizedBox(
