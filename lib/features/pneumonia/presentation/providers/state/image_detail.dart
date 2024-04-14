@@ -31,7 +31,7 @@ class ImageDetailState {
 
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ImageDetail extends _$ImageDetail {
 
   @override
@@ -49,6 +49,10 @@ class ImageDetail extends _$ImageDetail {
     state = state.copyWith(
       radiographyType: radiographyType,
     );
+  }
+  
+  void resetProvider() {
+    state = ImageDetailState.empty();
   }
 
 }

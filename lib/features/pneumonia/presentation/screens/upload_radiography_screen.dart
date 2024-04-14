@@ -29,6 +29,15 @@ class _UploadRadiographyScreenState
   File? _image;
 
   final picker = ImagePicker();
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
 
   Future<void> getImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: source);
@@ -112,9 +121,9 @@ class _UploadRadiographyScreenState
         floatingActionButton: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: UploadButton(
-            enabled: _image == null ? false : true,
+            enabled: _image == null || controller.text.isEmpty ? false : true,
             text: 'Escanear',
-            documento: '',
+            documento: controller.text,
             image: _image != null ? _image! : File(''),
             onPressed: ref.read(scanPneumoniaImageProvider.notifier).scanImagen,
           ),
@@ -175,6 +184,12 @@ class _UploadRadiographyScreenState
                             ),
                           ),
                         )),
+              SizedBox(
+                height: 20.h,
+              ),
+              DocumentoInput(
+                controller: controller,
+              ),
               SizedBox(
                 height: 50.h,
               ),

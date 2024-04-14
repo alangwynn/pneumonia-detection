@@ -21,7 +21,7 @@ class MockPneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
       message: 'Escaneo exitoso',
       data: const PneumoniaEntity(
         mensaje: 'Paciente con neumonía',
-        porcentaje: 0.95,
+        porcentaje: '0.95',
         recomendacion: 'Asistir a un centro médico',
       ),
     );

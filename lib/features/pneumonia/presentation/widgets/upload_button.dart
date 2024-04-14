@@ -20,7 +20,7 @@ class UploadButton extends StatefulWidget {
   final File image;
   final void Function({
     required String documento,
-    required String image,
+    required File image,
   }) onPressed;
 
   @override
@@ -36,8 +36,8 @@ class _UploadButtonState extends State<UploadButton> {
       child: ElevatedButton(
         onPressed: widget.enabled ? () {
           widget.onPressed(
-            documento: 'documento',
-            image: 'imagen',
+            documento: widget.documento,
+            image: widget.image,
           );
         } : null,
         style: ElevatedButton.styleFrom(

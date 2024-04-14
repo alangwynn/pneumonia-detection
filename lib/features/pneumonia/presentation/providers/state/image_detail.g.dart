@@ -6,12 +6,12 @@ part of 'image_detail.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$imageDetailHash() => r'ea95023ec401e58f10b89abfdc979d4fac7748f7';
+String _$imageDetailHash() => r'7f742d8e36c8f07ea4ee3bb74faaf4e0b6af2a8c';
 
 /// See also [ImageDetail].
 @ProviderFor(ImageDetail)
 final imageDetailProvider =
-    AutoDisposeNotifierProvider<ImageDetail, ImageDetailState>.internal(
+    NotifierProvider<ImageDetail, ImageDetailState>.internal(
   ImageDetail.new,
   name: r'imageDetailProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final imageDetailProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ImageDetail = AutoDisposeNotifier<ImageDetailState>;
+typedef _$ImageDetail = Notifier<ImageDetailState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

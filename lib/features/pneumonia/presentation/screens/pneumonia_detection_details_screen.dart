@@ -29,6 +29,7 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            ref.read(imageDetailProvider.notifier).resetProvider();
             GoRouter.of(context).go(HomeScreen.routeName);
           },
         ),
@@ -44,6 +45,7 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
+              ref.read(imageDetailProvider.notifier).resetProvider();
               GoRouter.of(context).go(HomeScreen.routeName);
             },
             style: ElevatedButton.styleFrom(
@@ -100,7 +102,7 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'El escaneo dio un %${details.porcentaje*100} de tener pneumonia',
+                'El escaneo dio un ${details.porcentaje*100}% de tener pneumonia',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
               ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:pneumonia_detection/features/pneumonia/domain/entities/entities.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/providers/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,7 +15,7 @@ class ScanPneumoniaImage extends _$ScanPneumoniaImage {
 
   Future<void> scanImagen({
     required String documento,
-    required String image,
+    required File image,
   }) async {
     state = const AsyncLoading();
 
@@ -21,7 +23,7 @@ class ScanPneumoniaImage extends _$ScanPneumoniaImage {
 
     final response = await repository.scanRadiography(
       documento: documento,
-      image: image,
+      image: 'image',
     );
 
     await Future.delayed(const Duration(seconds: 2));
