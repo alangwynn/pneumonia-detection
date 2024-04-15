@@ -23,10 +23,8 @@ class ScanPneumoniaImage extends _$ScanPneumoniaImage {
 
     final response = await repository.scanRadiography(
       documento: documento,
-      image: 'image',
+      image: image,
     );
-
-    await Future.delayed(const Duration(seconds: 2));
 
     response.fold((error) {
       state = AsyncError(
@@ -34,7 +32,9 @@ class ScanPneumoniaImage extends _$ScanPneumoniaImage {
         error.stackTrace ?? StackTrace.current,
       );
     }, (data) {
-      state = AsyncData(data);
+      state = AsyncData(
+        data ?? PneumoniaEntity.empty(),
+      );
     });
   }
 }

@@ -1,4 +1,7 @@
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:pneumonia_detection/config/client/api_http_client.dart';
 import 'package:pneumonia_detection/config/client/client_config.dart';
 import 'package:pneumonia_detection/features/pneumonia/data/models/models.dart';
@@ -16,16 +19,23 @@ class RemotePneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
   static const _basePath = '/pneumonia';
 
   @override
-  Future<Result<PneumoniaEntity>> scanRadiography({required String documento, required String image}) async {
+  Future<Result<PneumoniaEntity?>> scanRadiography({
+    required String documento,
+    required File image,
+  }) async {
+
+    FormData formData = FormData.fromMap({
+      'imagen': await MultipartFile.fromFile(image.path, filename: 'imagen.jpg'),
+      'documento': documento,
+    });
+
     final response = await _client.post(
       path: '$_basePath/procesar',
       deserializeResponseFunction: PneumoniaDetectionModel.fromJson,
-      payload: {
-        'imagen': image,
-        'documento': documento
-      }
+      payload: formData
     );
-    throw UnimplementedError();
+
+    return response.flatMap((a) => right(a?.toEntity()));
   }
   
 }

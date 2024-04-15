@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:pneumonia_detection/config/client/client_config.dart';
@@ -11,7 +12,7 @@ class MockPneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
   @override
   Future<Result<PneumoniaEntity>> scanRadiography({
     required String documento,
-    required String image,
+    required File image,
   }) async {
 
     const error = ApiException(code: '200', message: 'Error');
