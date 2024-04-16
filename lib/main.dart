@@ -10,7 +10,7 @@ import 'package:pneumonia_detection/config/theme/dark_mode.dart';
 
 void main() {
   ApiHttpClient.initialize(
-    baseUrl: '',
+    baseUrl: 'http://192.168.100.4:5000',
   );
   
   runApp(

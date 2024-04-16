@@ -16,7 +16,7 @@ class PneumoniaDetectionModel {
     return PneumoniaDetectionModel(
       code: json['code'] as int? ?? 0,
       message: json['message'] as String? ?? '',
-      data: PneumoniaEntity.fromJson(data['data'] as Map<String, dynamic>? ?? {}),
+      data: PneumoniaEntity.fromJson(data as Map<String, dynamic>? ?? {}),
     );
   }
 

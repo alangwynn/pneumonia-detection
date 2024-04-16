@@ -29,13 +29,22 @@ class RemotePneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
       'documento': documento,
     });
 
+    // final response = await dio.post(
+    //   'http://192.168.100.4:5000/pneumonia/procesar',
+    //   data: formData,
+    // );
+
+    // return right(PneumoniaEntity.empty());
+
     final response = await _client.post(
       path: '$_basePath/procesar',
       deserializeResponseFunction: PneumoniaDetectionModel.fromJson,
       payload: formData
     );
 
-    return response.flatMap((a) => right(a?.toEntity()));
+    final data = response.flatMap((a) => right(a?.toEntity()));
+
+    return data;
   }
   
 }

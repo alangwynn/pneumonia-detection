@@ -161,12 +161,21 @@ final class ApiHttpClient implements IHttpClient {
         case postMethod:
           httpClient.options.contentType = contentType;
           httpClient.options.headers['Content-Type'] = contentType;
-          response = await httpClient.post<String>(
-            uri.toString(),
-            data: jsonEncode(payload),
-            queryParameters: queryParams,
-            options: dioOptions,
-          );
+          if (payload is FormData) {
+            response = await httpClient.post<String>(
+              uri.toString(),
+              data: payload,
+              queryParameters: queryParams,
+              options: dioOptions,
+            );  
+          } else {
+            response = await httpClient.post<String>(
+              uri.toString(),
+              data: jsonEncode(payload),
+              queryParameters: queryParams,
+              options: dioOptions,
+            );
+          }
         case putMethod:
           httpClient.options.contentType = contentType;
           httpClient.options.headers['Content-Type'] = contentType;

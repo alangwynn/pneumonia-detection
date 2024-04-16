@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
-import 'dart:io';
+import 'dart:io' as io;
+
+import 'package:image/image.dart' as img;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +28,7 @@ class UploadRadiographyScreen extends ConsumerStatefulWidget {
 
 class _UploadRadiographyScreenState
     extends ConsumerState<UploadRadiographyScreen> {
-  File? _image;
+  io.File? _image;
 
   final picker = ImagePicker();
   final controller = TextEditingController();
@@ -40,17 +42,34 @@ class _UploadRadiographyScreenState
   }
 
   Future<void> getImage(ImageSource source) async {
-    final pickedFile = await picker.pickImage(source: source);
+    final pickedFile = await picker.pickImage(
+      source: source,
+    );
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        ref.read(imageDetailProvider.notifier).setImage(_image!);
-        ref.read(imageDetailProvider.notifier).setRadiography('torax');
+    if (pickedFile != null) {
+      final newImage = io.File(pickedFile.path);
+      img.Image? image = img.decodeImage(newImage.readAsBytesSync());
+
+      if (image != null) {
+        if (image.width > image.height) {
+          image = img.copyRotate(image, -90); // Rotar 90 grados para orientación vertical
+        }
+        img.Image thumbnail = img.copyResize(image, width: 1920, height: 1080);
+
+        final resizedImage = io.File(pickedFile.path)..writeAsBytesSync(img.encodePng(thumbnail));
+
+        setState(() {
+          _image = io.File(resizedImage.path);
+          ref.read(imageDetailProvider.notifier).setImage(resizedImage);
+          ref.read(imageDetailProvider.notifier).setRadiography('torax');
+        });
+
       } else {
-        print('No image selected.');
+        print('No se pudo decodificar la imagen.');
       }
-    });
+    } else {
+      return;
+    }
   }
 
   void showOptions() {
@@ -124,7 +143,7 @@ class _UploadRadiographyScreenState
             enabled: _image == null || controller.text.isEmpty ? false : true,
             text: 'Escanear',
             documento: controller.text,
-            image: _image != null ? _image! : File(''),
+            image: _image != null ? _image! : io.File(''),
             onPressed: ref.read(scanPneumoniaImageProvider.notifier).scanImagen,
           ),
         ),

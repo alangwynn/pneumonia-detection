@@ -11,7 +11,7 @@ class PneumoniaEntity extends Equatable {
 
   factory PneumoniaEntity.fromJson(Map<String, dynamic> json) {
     return PneumoniaEntity(
-      porcentaje: json['porcentaje'] != null ? json['porcentaje'].toString() : '',
+      porcentaje: json['porcentaje'] as String? ?? '',
       mensaje: json['mensaje'] as String? ?? '',
       recomendacion: json['recomendacion'] as String? ?? '',
     );
