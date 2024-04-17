@@ -1,12 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'dart:io' as io;
 
-import 'package:image/image.dart' as img;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:mobkit_dashed_border/mobkit_dashed_border.dart';
@@ -41,34 +41,38 @@ class _UploadRadiographyScreenState
     });
   }
 
-  Future<void> getImage(ImageSource source) async {
-    final pickedFile = await picker.pickImage(
-      source: source,
-    );
-
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
-      final newImage = io.File(pickedFile.path);
-      img.Image? image = img.decodeImage(newImage.readAsBytesSync());
-
-      if (image != null) {
-        if (image.width > image.height) {
-          image = img.copyRotate(image, -90); // Rotar 90 grados para orientación vertical
-        }
-        img.Image thumbnail = img.copyResize(image, width: 1920, height: 1080);
-
-        final resizedImage = io.File(pickedFile.path)..writeAsBytesSync(img.encodePng(thumbnail));
-
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+          IOSUiSettings(
+            minimumAspectRatio: 1.0,
+          ),
+        ],
+      );
+      if (croppedFile != null) {
         setState(() {
-          _image = io.File(resizedImage.path);
-          ref.read(imageDetailProvider.notifier).setImage(resizedImage);
+          _image = io.File(croppedFile.path);
+          ref.read(imageDetailProvider.notifier).setImage(_image!);
           ref.read(imageDetailProvider.notifier).setRadiography('torax');
         });
-
-      } else {
-        print('No se pudo decodificar la imagen.');
       }
-    } else {
-      return;
     }
   }
 
@@ -83,7 +87,7 @@ class _UploadRadiographyScreenState
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Seleccionar de la galería'),
                 onTap: () {
-                  getImage(ImageSource.gallery);
+                  _pickImage(ImageSource.gallery);
                   Navigator.of(context).pop();
                 },
               ),
@@ -91,7 +95,7 @@ class _UploadRadiographyScreenState
                 leading: const Icon(Icons.photo_camera),
                 title: const Text('Tomar una foto'),
                 onTap: () {
-                  getImage(ImageSource.camera);
+                  _pickImage(ImageSource.camera);
                   Navigator.of(context).pop();
                 },
               ),
