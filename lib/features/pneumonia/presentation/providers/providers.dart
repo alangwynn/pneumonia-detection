@@ -10,7 +10,7 @@ part 'providers.g.dart';
 @riverpod
 PneumoniaDetectionRepository pneumoniaDetectionRepository(PneumoniaDetectionRepositoryRef ref) {
   
-  final mockDatsource = MockPneumoniaDetectionDatasource();
+  // final mockDatsource = MockPneumoniaDetectionDatasource();
 
   final client = ApiHttpClient();
 

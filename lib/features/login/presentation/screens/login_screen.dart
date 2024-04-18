@@ -19,12 +19,10 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
-      // backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // const Placeholder(),
 
               SizedBox(
                 height: screenHeight * 0.4,

@@ -7,7 +7,7 @@ part of 'scan_image.dart';
 // **************************************************************************
 
 String _$scanPneumoniaImageHash() =>
-    r'b5da65cb507d5f124435b59aac5158dd1f750346';
+    r'a794c586e9229d814968980d5965f6d55e021f57';
 
 /// See also [ScanPneumoniaImage].
 @ProviderFor(ScanPneumoniaImage)
