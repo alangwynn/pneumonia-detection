@@ -1,4 +1,5 @@
 import 'package:pneumonia_detection/config/client/client_config.dart';
+import 'package:pneumonia_detection/features/login/data/models/models.dart';
 import 'package:pneumonia_detection/features/login/domain/entities/entities.dart';
 
 abstract class UserDatasource {
@@ -8,7 +9,7 @@ abstract class UserDatasource {
     required String password,
   });
 
-  Future<Result<UserEntity>> register({
+  Future<Result<SignUpResponseModel?>> register({
     required String email,
     required String nombre,
     required String apellido,

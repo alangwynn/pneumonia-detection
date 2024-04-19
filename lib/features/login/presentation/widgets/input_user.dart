@@ -30,7 +30,7 @@ class UserInput extends StatelessWidget {
             child: TextField(
               controller: controller,
               decoration: const InputDecoration(
-                hintText: 'Usuario',
+                hintText: 'Documento',
                 border: InputBorder.none,
               ),
             ),

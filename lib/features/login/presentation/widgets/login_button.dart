@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:pneumonia_detection/features/home/presentation/screens/screens.dart';
 
 class LoginButton extends StatefulWidget {
   final bool enabled;
+  final VoidCallback onClick;
 
-  const LoginButton({Key? key, this.enabled = false}) : super(key: key);
+  const LoginButton({
+    Key? key,
+    this.enabled = false,
+    required this.onClick,
+  }) : super(key: key);
 
   @override
   _LoginButtonState createState() => _LoginButtonState();
@@ -19,9 +22,9 @@ class _LoginButtonState extends State<LoginButton> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: widget.enabled ? () {
-          GoRouter.of(context).go(HomeScreen.routeName);
-        } : null,
+        onPressed: widget.enabled 
+          ? widget.onClick
+          : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
           padding: EdgeInsets.symmetric(vertical: 15.sp),

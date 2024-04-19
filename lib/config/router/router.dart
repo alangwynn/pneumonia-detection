@@ -29,6 +29,10 @@ GoRouter appRouter(AppRouterRef ref) {
         path: PneumoniaDetecionDetailsScreen.routeName,
         builder: (context, state) => const PneumoniaDetecionDetailsScreen(),
       ),
+      GoRoute(
+        path: SignUpScreen.routeName,
+        builder: (context, state) => SignUpScreen(),
+      ),
     ]
   );
 }

@@ -211,6 +211,19 @@ final class ApiHttpClient implements IHttpClient {
         'Error: $method $uri $e',
         name: 'ApiHttpClient',
       );
+      if (e is DioException) {
+        if (e.response != null) {
+          if (e.response!.data != null) {
+            final decodedJson = jsonDecode(e.response!.data);
+            final mensaje = decodedJson['mensaje'];
+            return left(
+              ApiException(
+                message: mensaje,
+              ),
+            );
+          }
+        }
+      }
       return left(
         ApiException(
           message: e.toString(),
@@ -239,7 +252,7 @@ final class ApiHttpClient implements IHttpClient {
           name: 'ApiHttpClient',
         );
         return left(
-          ApiException(
+          const ApiException(
             message: message,
           ),
         );
@@ -267,7 +280,7 @@ final class ApiHttpClient implements IHttpClient {
         name: 'ApiHttpClient',
       );
       return left(
-        ApiException(
+        const ApiException(
           message: message,
         ),
       );
@@ -276,7 +289,7 @@ final class ApiHttpClient implements IHttpClient {
       if (deserializeResponseFunction != null ||
           deserializeResponseFunctionList != null) {
         return left(
-          ApiException(
+          const ApiException(
             message: 'Cannot deserialize no content or accepted response',
           ),
         );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pneumonia_detection/features/login/presentation/screens/screens.dart';
 
 class SignUpText extends StatelessWidget {
   const SignUpText({super.key});
@@ -18,7 +20,7 @@ class SignUpText extends StatelessWidget {
           WidgetSpan(
             child: GestureDetector(
               onTap:() {
-                
+                GoRouter.of(context).push(SignUpScreen.routeName);
               },
               child: const Text(
                 'Crea una cuenta',

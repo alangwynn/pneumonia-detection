@@ -20,7 +20,7 @@ class UserRemoteDatasource extends UserDatasource {
   Future<Result<UserEntity?>> login({required String documento, required String password}) async {
     
     final response = await _client.post(
-      path: '$_basePath/procesar',
+      path: '$_basePath/login',
       deserializeResponseFunction: LoginResponseModel.fromJson,
       payload: {
         "documento": documento,
@@ -34,9 +34,27 @@ class UserRemoteDatasource extends UserDatasource {
   }
 
   @override
-  Future<Result<UserEntity>> register({required String email, required String nombre, required String apellido, required String documento, required String password}) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<Result<SignUpResponseModel?>> register({
+    required String email,
+    required String nombre,
+    required String apellido,
+    required String documento,
+    required String password,
+  }) async {
+    
+    final response = await _client.post(
+      path: '$_basePath/crear',
+      deserializeResponseFunction: SignUpResponseModel.fromJson,
+      payload: {
+        'email': email,
+        'nombre': nombre,
+        'apellido': apellido,
+        'documento': documento,
+        'password': password,
+      }
+    );
+
+    return response;
   }
   
 }

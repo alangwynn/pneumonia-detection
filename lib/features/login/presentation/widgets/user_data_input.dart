@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DocumentoInput extends StatelessWidget {
-  const DocumentoInput({
+class UserDataInput extends StatelessWidget {
+  const UserDataInput({
     super.key,
     required this.controller,
+    required this.hintText,
+    required this.icon,
   });
 
   final TextEditingController controller;
+  final String hintText;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +25,16 @@ class DocumentoInput extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(
-            Icons.person,
+          Icon(
+            icon,
             color: Colors.grey,
           ),
           const SizedBox(width: 10.0),
           Expanded(
             child: TextField(
               controller: controller,
-              decoration: const InputDecoration(
-                hintText: 'Documento Paciente',
+              decoration: InputDecoration(
+                hintText: hintText,
                 border: InputBorder.none,
               ),
             ),

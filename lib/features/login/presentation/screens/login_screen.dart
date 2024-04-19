@@ -1,21 +1,50 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pneumonia_detection/common/toast.dart';
+import 'package:pneumonia_detection/features/home/presentation/screens/home_screen.dart';
+import 'package:pneumonia_detection/features/login/presentation/providers/state/login_user.dart';
 import 'package:pneumonia_detection/features/login/presentation/widgets/widgets.dart';
 import 'package:pneumonia_detection/helpers/assets_helper.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
 
   static const routeName = '/login-screen'; 
 
-  final userController = TextEditingController();
+  final documentoController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final screenHeight = MediaQuery.of(context).size.height;
+
+    ref.listen(userLoginProvider, (previous, next) {
+      if (next.isLoading) {
+        context.loaderOverlay.show();
+      } else if (next.hasError) {
+        context.loaderOverlay.hide();
+        ToastOverlay.showToastMessage(
+          'El usuario o contraseña no coincide con un usuario registrado',
+          ToastType.error,
+          context,
+        );
+      } else if (next.hasValue) {
+        context.loaderOverlay.hide();
+        GoRouter.of(context).go(HomeScreen.routeName);
+      }
+    });
+
+    void login() {
+      ref.read(userLoginProvider.notifier).login(
+        documento: documentoController.text,
+        password: passwordController.text
+      );
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 236, 236, 236),
@@ -63,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 20.h,),
                       UserInput(
-                        controller: userController,
+                        controller: documentoController,
                       ),
                       SizedBox(height: 20.h,),
                       PasswordInput(
@@ -86,7 +115,8 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 20.h,),
                       LoginButton(
-                        enabled: passwordController.text != "" && userController.text != "",
+                        onClick: login,
+                        enabled: passwordController.text != "" && documentoController.text != "",
                       ),
                       SizedBox(height: 20.h,),
                       const SignUpText(),
