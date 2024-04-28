@@ -99,21 +99,6 @@ class LoginScreen extends ConsumerWidget {
                         controller: passwordController,
                       ),
                       SizedBox(height: 20.h,),
-                      Container(
-                        padding: EdgeInsets.only(
-                          right: 10.w,
-                        ),
-                        width: double.infinity,
-                        child: const Text(
-                          'Olvidé mi contraseña',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.h,),
                       LoginButton(
                         onClick: login,
                         enabled: passwordController.text != "" && documentoController.text != "",

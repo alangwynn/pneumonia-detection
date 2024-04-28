@@ -100,7 +100,7 @@ class PneumoniaDetecionDetailsScreen extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: Text(
-                'El escaneo dio un ${details.porcentaje}% de tener pneumonia',
+                'El escaneo dió un ${details.porcentaje}%',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
               ),
