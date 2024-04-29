@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:pneumonia_detection/features/login/presentation/providers/state/login_user.dart';
 import 'package:pneumonia_detection/features/pneumonia/domain/entities/entities.dart';
 import 'package:pneumonia_detection/features/pneumonia/presentation/providers/providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -24,6 +25,7 @@ class ScanPneumoniaImage extends _$ScanPneumoniaImage {
     final response = await repository.scanRadiography(
       documento: documento,
       image: image,
+      userId: ref.read(userLoginProvider.notifier).state.value!.id.toString(),
     );
 
     response.fold((error) {

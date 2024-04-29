@@ -13,6 +13,7 @@ class MockPneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
   Future<Result<PneumoniaEntity>> scanRadiography({
     required String documento,
     required File image,
+    required String userId,
   }) async {
 
     const error = ApiException(code: '200', message: 'Error');

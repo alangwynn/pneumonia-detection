@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_user.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class UserLogin extends _$UserLogin {
 
   @override

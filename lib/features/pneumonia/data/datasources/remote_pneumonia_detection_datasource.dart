@@ -22,11 +22,13 @@ class RemotePneumoniaDetectionDatasource extends PneumoniaDetectionDatasource {
   Future<Result<PneumoniaEntity?>> scanRadiography({
     required String documento,
     required File image,
+    required String userId,
   }) async {
 
     FormData formData = FormData.fromMap({
       'imagen': await MultipartFile.fromFile(image.path, filename: 'imagen.jpg'),
       'documento': documento,
+      'userId': userId
     });
 
     // final response = await dio.post(

@@ -8,6 +8,7 @@ abstract class PneumoniaDetectionDatasource {
   Future<Result<PneumoniaEntity?>> scanRadiography({
     required String documento,
     required File image,
+    required String userId,
   });
 
 }

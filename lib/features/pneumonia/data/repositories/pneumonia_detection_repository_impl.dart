@@ -17,10 +17,12 @@ class PneumoniaDetectionRepositoryImpl extends PneumoniaDetectionRepository {
   Future<Result<PneumoniaEntity?>> scanRadiography({
     required String documento,
     required File image,
+    required String userId,
   }) {
     return datasource.scanRadiography(
       documento: documento,
-      image: image
+      image: image,
+      userId: userId,
     );
   }
   
